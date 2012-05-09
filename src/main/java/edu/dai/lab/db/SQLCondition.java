@@ -41,6 +41,10 @@ public class SQLCondition
 		String result = null;
 		
 		switch(type) {
+		case REFERENCE:
+			result = value1 + " = " + value2;
+			break;
+
 		case EQUAL:
 			result = value1 + " = ?";
 			break;

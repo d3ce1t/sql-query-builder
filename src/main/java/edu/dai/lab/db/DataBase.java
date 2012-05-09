@@ -193,7 +193,7 @@ public class DataBase extends Thread implements IDataBase
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/" + DBNAME, USERNAME, PASSWORD);
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLException on DataBase:conexionDB: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
@@ -294,7 +294,7 @@ public class DataBase extends Thread implements IDataBase
 
 			}
 		} catch (SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLException on DataBase:dbExist: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}

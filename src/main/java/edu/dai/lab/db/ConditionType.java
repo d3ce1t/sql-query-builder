@@ -8,5 +8,6 @@ public enum ConditionType {
 	NOT_EQUAL,
 	IN,
 	NOT_IN,
+	REFERENCE,
 	CUSTOM;
 }

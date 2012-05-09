@@ -60,7 +60,7 @@ public class SQLWhere
 			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
 				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
 			}
-			else if (condition.getType() != ConditionType.CUSTOM) {
+			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
 				parent.getVariables().add(condition.getValue2());
 			}
 		}
@@ -74,7 +74,7 @@ public class SQLWhere
 			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
 				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
 			}
-			else if (condition.getType() != ConditionType.CUSTOM) {
+			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
 				parent.getVariables().add(condition.getValue2());
 			}
 		}
@@ -98,7 +98,7 @@ public class SQLWhere
 			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
 				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
 			}
-			else if (condition.getType() != ConditionType.CUSTOM) {
+			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
 				parent.getVariables().add(condition.getValue2());
 			}
 		}
@@ -112,7 +112,7 @@ public class SQLWhere
 			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
 				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
 			}
-			else if (condition.getType() != ConditionType.CUSTOM) {
+			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
 				parent.getVariables().add(condition.getValue2());
 			}
 		}
