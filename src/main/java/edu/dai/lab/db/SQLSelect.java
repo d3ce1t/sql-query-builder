@@ -67,6 +67,7 @@ public class SQLSelect implements SQLSelectUpdate
 		if (from.size() == 0)
 			throw new RuntimeException("You must to indicate a table or table names for the SELECT statement");
 			
+		variables.clear();
 		Iterator<String> it = _columns.iterator();		
 		String query = "SELECT ";
 		
@@ -94,7 +95,7 @@ public class SQLSelect implements SQLSelectUpdate
 			query += " " + toAppend;
 		
 		this.query = new SQLQuery(query, SQLQueryType.SQL_QUERY);
-		
+				
 		for (String var : variables) {
 			this.query.addVariable(var);
 		}
