@@ -19,6 +19,7 @@ public class SQLConnection
 	
 	private Connection connection = null;
 	
+	
 	public SQLConnection(String userName, String password, String dbName) throws SQLException {
 		connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName, userName, password);
 	}

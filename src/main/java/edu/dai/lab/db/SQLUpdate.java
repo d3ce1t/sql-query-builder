@@ -121,16 +121,22 @@ public class SQLUpdate implements SQLSelectUpdate
 	
 	private String getOperationString(String colName, OperationType type)
 	{
-		if (colName == null) throw new NullPointerException();
-		if (type == null) throw new NullPointerException();
+		if (colName == null)
+			throw new NullPointerException();
+		
+		if (type == null)
+			throw new NullPointerException();
 		
 		String result = null;
-		
 		result = colName + " = ";
 		
 		switch (type) {
-		case INCREMENT:
-			result += colName + "+1";
+			case INCREMENT:
+				result += colName + "+1";
+				break;
+			case DECREMENT:
+				result += colName + "-1";
+				break;
 		}
 		
 		return result;
