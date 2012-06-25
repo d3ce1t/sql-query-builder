@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<groupId>edu.dai.lab</groupId>
+	<groupId>com.hall4.commons</groupId>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>edu.dai.lab.db</artifactId>
+	<artifactId>com.hall4.commons.db</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.6.1</version>
+	<version>1.6.2</version>
 	<name>Database Query Builder</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
@@ -20,6 +20,11 @@
 			<version>5.1.19</version>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -32,9 +37,15 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>edu.dai.lab.db</Bundle-SymbolicName>
-						<Embed-Dependency>*;scope=runtime;inline=false</Embed-Dependency>
-            			<Embed-Directory>lib</Embed-Directory>
-            			<Import-Package>!com.mchange.v2.c3p0, !javax.transaction.xa, !org.jboss.resource.adapter.jdbc.*, *</Import-Package>
+						<Embed-Dependency>
+							*;groupId=c3p0;artifactId=c3p0;inline=false,
+							*;scope=runtime;inline=false
+						</Embed-Dependency>
+						<Embed-Directory>lib</Embed-Directory>
+						<Import-Package>
+							!com.mchange.v2.c3p0, !javax.transaction.xa,
+							!org.jboss.resource.adapter.jdbc.*, *
+						</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>

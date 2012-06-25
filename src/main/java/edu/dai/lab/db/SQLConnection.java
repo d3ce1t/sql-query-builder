@@ -21,7 +21,11 @@ public class SQLConnection
 	
 	
 	public SQLConnection(String userName, String password, String dbName) throws SQLException {
-		connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName, userName, password);
+		connection = DriverManager.getConnection("jdbc:mysql://localhost/" + dbName + "?characterEncoding=utf8", userName, password);
+	}
+	
+	public SQLConnection(Connection connection) {
+		this.connection = connection;
 	}
 	
 	public void startTransaction() throws SQLException
