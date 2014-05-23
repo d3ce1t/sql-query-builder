@@ -1,6 +1,6 @@
 SQL Query Builder
 =================
-SQL Query Builder is a library that enables build SQL queries in a simple and error-free way in Java.
+SQL Query Builder is a library that enables building SQL queries in a simple and error-free way in Java.
 
 Code Sample
 -----------
