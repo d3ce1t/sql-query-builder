@@ -1,4 +1,4 @@
-package edu.dai.lab.db;
+package com.hall4.commons.db;
 
 public class SQLCondition
 {
