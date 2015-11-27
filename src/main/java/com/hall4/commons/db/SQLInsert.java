@@ -4,15 +4,10 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-public class SQLInsert implements SQLSelectUpdate
+public class SQLInsert
 {
 	private Hashtable<String, String> _values = new Hashtable<String, String>();
 	private String _table;
-	private final LinkedList<String> variables;
-	
-	public SQLInsert() {
-		variables = new LinkedList<String>();
-	}
 	
 	public void setTable(String table) {
 		_table = table.trim();
@@ -24,8 +19,10 @@ public class SQLInsert implements SQLSelectUpdate
 	
 	public SQLQuery createQuery()
 	{
-		if (_table != null && _table.isEmpty())
+		if (_table == null || (_table != null && _table.isEmpty()))
 			throw new IllegalArgumentException("You must to indicate a table name for the INSERT statement");
+		
+		LinkedList<String> variables = new LinkedList<String>();
 		
 		String strColumns, strValues;		
 		Enumeration<String> itKeys = _values.keys();		
@@ -42,17 +39,12 @@ public class SQLInsert implements SQLSelectUpdate
 			variables.addLast(_values.get(key));
 		}
 		
-		SQLQuery queryObject = new SQLQuery("INSERT INTO `" + _table + "` (" + strColumns + ") VALUES (" + strValues + ")", SQLQueryType.SQL_INSERT);
+		SQLQuery query = new SQLQuery("INSERT INTO `" + _table + "` (" + strColumns + ") VALUES (" + strValues + ")", SQLQueryType.SQL_INSERT);
 		
 		for (String var : variables) {
-			queryObject.addVariable(var);
+			query.addVariable(var);
 		}
 		
-		return queryObject;
-	}
-
-	@Override
-	public LinkedList<String> getVariables() {
-		return variables;
+		return query;
 	}
 }

@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-
 public class SQLWhere
 {	
-	private SQLSelectUpdate parent = null;
-	private ArrayList<SQLCondition> filter = new ArrayList<SQLCondition>();	
+	private ArrayList<SQLCondition> filter;
+	private LinkedList<String> variables;
 	
 	public boolean modeOr = false;
 	
-	public SQLWhere(SQLSelectUpdate parent) {
-		this.parent = parent;
+	public SQLWhere() {
+		filter = new ArrayList<SQLCondition>();	
+		variables = new LinkedList<String>();
 	}
 	
 	public void setModeOr(boolean value) {
@@ -38,86 +38,41 @@ public class SQLWhere
 	
 	public String query()
 	{
-		if (!modeOr)
-			return queryAnd();
-		else
-			return queryOr();
-	}
-	
-	private String queryAnd()
-	{
-		String where = "";
+		String whereStr = "";
 		
 		Iterator<SQLCondition> it = filter.iterator();
 		SQLCondition condition = null;
+				
+		int i = 0;
 		
-		if (it.hasNext())
-		{
-			condition = it.next();
-			where += condition;
-			
-			// Process Variables
-			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
-				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
-			}
-			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
-				parent.getVariables().add(condition.getValue2());
-			}
-		}
-			
+		String logicCmp = modeOr ? " OR " : " AND "; // Keep spaces!!
+		
 		while (it.hasNext())
 		{
 			condition = it.next();
-			where += " AND " + condition;
+			
+			if (i > 0) {
+				whereStr += logicCmp + condition;
+			} else {
+				whereStr += condition;
+			}
+			
+			i++;
 			
 			// Process Variables
 			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
-				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
+				copyVariables(condition.getSubSelect().where.getVariables(), variables);
 			}
 			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
-				parent.getVariables().add(condition.getValue2());
+				variables.add(condition.getValue2());
 			}
 		}
 		
-		return where;
+		return whereStr;
 	}
 	
-	private String queryOr()
-	{
-		String where = "";
-		
-		Iterator<SQLCondition> it = filter.iterator();
-		SQLCondition condition = null;
-		
-		if (it.hasNext())
-		{
-			condition = it.next();
-			where += condition;
-			
-			// Process Variables
-			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
-				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
-			}
-			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
-				parent.getVariables().add(condition.getValue2());
-			}
-		}
-			
-		while (it.hasNext())
-		{
-			condition = it.next();
-			where += " OR " +condition;
-			
-			// Process Variables
-			if (condition.getType() == ConditionType.IN || condition.getType() == ConditionType.NOT_IN) {
-				copyVariables(condition.getSubSelect().getVariables(), parent.getVariables());
-			}
-			else if (condition.getType() != ConditionType.CUSTOM && condition.getType() != ConditionType.REFERENCE) {
-				parent.getVariables().add(condition.getValue2());
-			}
-		}
-		
-		return where;
+	public LinkedList<String> getVariables() {
+		return variables;
 	}
 	
 	private void copyVariables(LinkedList<String> source, LinkedList<String> target) {

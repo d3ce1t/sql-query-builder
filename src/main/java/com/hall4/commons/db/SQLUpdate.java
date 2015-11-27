@@ -4,20 +4,14 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-public class SQLUpdate implements SQLSelectUpdate
+public class SQLUpdate
 {
 	public SQLFrom from = new SQLFrom();
-	public final SQLWhere where;
-	private LinkedList<String> variables;
+	public final SQLWhere where = new SQLWhere();
 	private String toAppend = null;
 	
 	protected Hashtable<String, String> _values = new Hashtable<String, String>();
 	protected Hashtable<String, OperationType> _operations = new Hashtable<String, OperationType>();
-	
-	public SQLUpdate() {
-		where = new SQLWhere(this);
-		variables = new LinkedList<String>();
-	}
 	
 	// FIXME: It's used now for LIMIT, do it well please :)
 	public void appendToFinalQuery(String append) {
@@ -35,7 +29,7 @@ public class SQLUpdate implements SQLSelectUpdate
 	public SQLQuery createQuery()
 	{
 		if (from.size() == 0)
-			throw new IllegalArgumentException("You must to indicate a table or table names for the UPDATE statement");
+			throw new IllegalArgumentException("You must indicate a table or table names for the UPDATE statement");
 			
 		if (where.size() == 0)
 			throw new IllegalArgumentException("You should protect your query update with a WHERE clause");
@@ -57,16 +51,6 @@ public class SQLUpdate implements SQLSelectUpdate
 			newVars.addLast(_values.get(key));
 		}
 		
-		// Combine both lists
-		for (String value : variables) {
-			newVars.addLast(value);
-		}
-		
-		variables.clear(); // don't need
-		
-		// Variables is now newVars.
-		variables = newVars;
-		
 		String allOperations = getAllOperationsString();
 		String updateValues = "";
 		
@@ -80,23 +64,23 @@ public class SQLUpdate implements SQLSelectUpdate
 			throw new IllegalArgumentException("You should at least indicate one column to update");
 		}
 		
-		String query = "UPDATE " + from.query() + " SET " + updateValues + " WHERE " + where.query();
+		String queryStr = "UPDATE " + from.query() + " SET " + updateValues + " WHERE " + where.query();
 		
+		// Combine both lists
+		for (String value : where.getVariables()) {
+			newVars.addLast(value);
+		}
+				
 		if (toAppend != null)
-			query += " " + toAppend;
+			queryStr += " " + toAppend;
 		
-		SQLQuery queryObject = new SQLQuery(query, SQLQueryType.SQL_UPDATE);
+		SQLQuery query = new SQLQuery(queryStr, SQLQueryType.SQL_UPDATE);
 		
-		for (String var : variables) {
-			queryObject.addVariable(var);
+		for (String var : newVars) {
+			query.addVariable(var);
 		}
 		
-		return queryObject;
-	}
-
-	@Override
-	public LinkedList<String> getVariables() {
-		return variables;
+		return query;
 	}
 	
 	private String getAllOperationsString()

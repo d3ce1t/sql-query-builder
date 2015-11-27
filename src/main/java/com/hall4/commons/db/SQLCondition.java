@@ -2,8 +2,8 @@ package com.hall4.commons.db;
 
 public class SQLCondition
 {
-	private SQLSelect subselect;
-	private String value1;
+	private SQLSelect subselect;  // Condition can be a subselect result
+	private String value1;        // or a two values comparison
 	private String value2;
 	private ConditionType type;
 	
@@ -41,7 +41,7 @@ public class SQLCondition
 		String result = null;
 		
 		switch(type) {
-		case REFERENCE:
+		case REFERENCE: // Used for comparing two fields, for instance, table1.id = table2.id
 			result = value1 + " = " + value2;
 			break;
 
