@@ -26,6 +26,11 @@ public class SQLUpdate
 		_operations.put(colName, operation);
 	}
 	
+	@Override
+	public String toString() {
+		return createQuery().toString();
+	}
+	
 	public SQLQuery createQuery()
 	{
 		if (from.size() == 0)

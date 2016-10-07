@@ -1,12 +1,14 @@
 package com.hall4.commons.db;
 
-import java.sql.SQLException;
-
 public class SQLDelete
 {
 	public final SQLWhere where = new SQLWhere();
 	private String _table = null;
 	private String toAppend = null;
+	
+	public SQLDelete(String table) {
+		_table = table;
+	}
 	
 	public void setTable(String table) {
 		_table = table.trim();
@@ -17,13 +19,18 @@ public class SQLDelete
 		toAppend = append;
 	}
 	
-	public SQLQuery createQuery() throws SQLException
+	@Override
+	public String toString() {
+		return createQuery().toString();
+	}
+	
+	public SQLQuery createQuery()
 	{
 		if (_table == null || (_table != null && _table.isEmpty() ) )
-			throw new SQLException("You must indicate a table name for the DELETE statement");
+			throw new IllegalArgumentException("You must indicate a table name for the DELETE statement");
 		
 		if (where.size() == 0)
-			throw new SQLException("You should protect your DELETE query with a WHERE clause");
+			throw new IllegalArgumentException("You should protect your DELETE query with a WHERE clause");
 			
 		String queryStr = "DELETE FROM `" + _table + "` WHERE " + where.query();
 		

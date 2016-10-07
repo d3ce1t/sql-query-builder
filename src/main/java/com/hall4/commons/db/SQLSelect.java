@@ -16,6 +16,12 @@ public class SQLSelect
 	
 	private ArrayList<String> _columns = new ArrayList<String>();
 	
+	public SQLSelect() {}
+	
+	public SQLSelect(String table) {
+		from.addTable(table);
+	}
+	
 	public void addColumn(String colName, boolean groupBy)
 	{
 		if (groupBy) {
@@ -55,10 +61,15 @@ public class SQLSelect
 		selectDistinctFlag = value;
 	}
 	
+	@Override
+	public String toString() {
+		return createQuery().toString();
+	}
+	
 	public SQLQuery createQuery()
 	{
 		if (from.size() == 0)
-			throw new RuntimeException("You must indicate a table or table names for the SELECT statement");
+			throw new IllegalArgumentException("You must indicate a table or table names for the SELECT statement");
 			
 		Iterator<String> it = _columns.iterator();		
 		String queryStr = "SELECT ";

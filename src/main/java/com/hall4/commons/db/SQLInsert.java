@@ -9,12 +9,21 @@ public class SQLInsert
 	private Hashtable<String, String> _values = new Hashtable<String, String>();
 	private String _table;
 	
+	public SQLInsert(String table) {
+		_table = table;
+	}
+	
 	public void setTable(String table) {
 		_table = table.trim();
 	}
 	
-	public void addValue(String colName, String value) {
+	public void putVal(String colName, String value) {
 		_values.put(colName, value);
+	}
+	
+	@Override
+	public String toString() {
+		return createQuery().toString();
 	}
 	
 	public SQLQuery createQuery()

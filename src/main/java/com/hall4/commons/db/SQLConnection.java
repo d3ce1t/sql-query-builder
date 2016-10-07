@@ -54,7 +54,7 @@ public class SQLConnection
 		int affectedRows = -1;
 		
 		int i = 1;
-		for (String var : query.getVariables()) {
+		for (String var : query.getArgsValuesAsList()) {
 			pst.setString(i, var);
 			i++;
 		}

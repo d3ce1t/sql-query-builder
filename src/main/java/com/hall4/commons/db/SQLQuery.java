@@ -36,7 +36,17 @@ public class SQLQuery
 		return _query;
 	}
 
-	public LinkedList<String> getVariables() {
+	public LinkedList<String> getArgsValuesAsList() {
 		return _variables;
+	}
+	
+	public String[] getArgsValues() {
+		String[] result = new String[_variables.size()];
+		int i = 0;
+		for (String value : _variables) {
+			result[i] = value;
+			i++;
+		}
+		return result;
 	}
 }
